@@ -7,31 +7,30 @@ import org.json.simple.parser.ParseException;
 
 public class PackageUserSerializer {
 
-
     @Inject
-    PackageRegisteryContainer packageRegisteryContainer;
+    private static PackageRegisteryContainer packageRegisteryContainer;
 
-    public String serialize(PackageUser packages) {
-        StringBuilder s = new StringBuilder();
-
+    public static String serialize(PackageUser packages) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", packages.getAPackage().packageType().getPackageName());
-        jsonObject.put("dateA", packages.getDateClaimed());
-        jsonObject.put("dateB", packages.getDateClaimed());
-        jsonObject.put("isClaimed", packages.isClaimed());
-        return s.toString();
+        jsonObject.put("date_received", packages.getDateClaimed());
+        jsonObject.put("date_claimed", packages.getDateClaimed());
+        jsonObject.put("claimed", packages.isClaimed());
+        return jsonObject.toJSONString();
     }
 
-    public PackageUser serialize(String packages) {
+    public static PackageUser deserialize(String packages) {
         try {
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(packages);
 
             PackageUser packageUser = new PackageUser();
-            packageUser.setAPackage(packageRegisteryContainerjsonObject.get("name").toString());
-   /*     jsonObject.put("name", packages.getAPackage().packageType().getPackageName());
-        jsonObject.put("dateA", packages.getDateClaimed());
-        jsonObject.put("dateB", packages.getDateClaimed());
-        jsonObject.put("isClaimed", packages.isClaimed());*/
+            packageUser.setAPackage(packageRegisteryContainer.getPackage((String) jsonObject.get("name")));
+            packageUser.setDateReceived((long) jsonObject.get("date_received"));
+            packageUser.setDateClaimed((long) jsonObject.get("date_claimed"));
+            packageUser.setClaimed((boolean) jsonObject.get("claimed"));
+            packageUser.setOldValue(packages);
+
+            return packageUser;
         } catch (ParseException exception) {
             exception.printStackTrace();
         }

@@ -5,6 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import lombok.Getter;
+import nl.trydev07.harmkeys2.database.DatabaseMethods;
 import nl.trydev07.harmkeys2.packages.PackageUser;
 
 import java.util.List;
@@ -39,8 +40,7 @@ public class UserCache {
     CacheLoader<UUID, List<PackageUser>> cacheLoader = new CacheLoader<UUID, List<PackageUser>>() {
         @Override
         public List<PackageUser> load(UUID uuid) {
-            //TODO: Load user
-            return null;
+            return DatabaseMethods.loadUser(uuid);
         }
     };
 }

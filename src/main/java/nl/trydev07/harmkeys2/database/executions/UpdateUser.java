@@ -4,8 +4,9 @@ package nl.trydev07.harmkeys2.database.executions;
 import lombok.AllArgsConstructor;
 import nl.trydev07.core.database.query.update.Update;
 import nl.trydev07.harmkeys2.database.queries.UpdateQuery;
+import nl.trydev07.harmkeys2.packages.PackageUser;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,16 +14,17 @@ import java.util.UUID;
 public class UpdateUser extends UpdateQuery implements Update {
 
     private final UUID uuid;
-    private final String playerName;
-    private final String packages;
+    private final List<PackageUser> packages;
 
     @Override
     public String getQuery() {
-        return String.format(getRawQuery(), "harmkey_users", "player_name=?, packages=?", "uuid=?");
+        return getRawQuery(packages, uuid);
     }
 
     @Override
     public List<Object> getParams() {
-        return Arrays.asList(this.playerName, this.packages, this.uuid.toString());
+        return Collections.emptyList();
     }
+
+
 }

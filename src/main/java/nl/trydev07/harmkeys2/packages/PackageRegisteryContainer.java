@@ -25,7 +25,6 @@ public class PackageRegisteryContainer {
                     PackageRegistery packageRegistery = clazz.getAnnotation(PackageRegistery.class);
                     PackageStructure packageStructure = (PackageStructure) clazz.newInstance();
                     registryPackages.put(packageRegistery.name(), packageStructure);
-
                 }
             }
         } catch (InstantiationException | IllegalAccessException e) {
